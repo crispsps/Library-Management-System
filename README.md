@@ -12,15 +12,11 @@ Displays book details with display()\
 
 Patron Class
 Represents library patrons with attributes like name, ID, contact information
-Adds patrons with add_patron(patron) method.
-Updates patrons with update_patron(p_id, **kwargs) method.
-Removes patrons with remove_patron(p_id) method.
-Displays patron details with display() method.
+Adds, updates, removes, and displays patrons with respective methods.
 
 Transaction Class
 Handles book checkouts and returns.
-Checks out books with check_out_book(patron_p_id, isbn, due_date) method.
-Checks in books with check_in_book(patron_p_id, isbn) method.
+Checks in and out books.
 
 Library Class
 Manages the overall library system.
