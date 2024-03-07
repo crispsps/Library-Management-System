@@ -32,3 +32,6 @@ Implements data storage using CSV to store book and patron information with pand
 User Interface
 Develops a simple GUI to interact with the LMS using tkinter.
 
+How to use:
+Run the run.py file in an editor to view a table of information for both books and patrons.
+
