@@ -4,14 +4,14 @@ A comprehensive Library Management System using Python that allows librarians to
 Structure:
 
 Book Class
-Represents each book with attributes like title, author, ISBN, quantity, etc.
+Represents each book with attributes: title, author, ISBN, quantity
 Adds books with add_book(book) method.
-Updates books with update_book(isbn, **kwargs) method.
-Removes books with remove_book(isbn) method.
-Displays book details with display() method.\
+Updates books with update_book(isbn, **kwargs)
+Removes books with remove_book(isbn)
+Displays book details with display()\
 
 Patron Class
-Represents library patrons with attributes like name, ID, contact information, etc.
+Represents library patrons with attributes like name, ID, contact information
 Adds patrons with add_patron(patron) method.
 Updates patrons with update_patron(p_id, **kwargs) method.
 Removes patrons with remove_patron(p_id) method.
@@ -27,9 +27,8 @@ Manages the overall library system.
 Includes methods for searching books, managing patrons, handling transactions, and generating reports.
 
 Database Integration
-Implements data storage using CSV to persistently store book and patron information.
+Implements data storage using CSV to store book and patron information.
 
 User Interface
 Develops a simple GUI to interact with the LMS using tkinter.
 
-How to use:
