@@ -31,3 +31,5 @@ Develops a simple GUI to interact with the LMS using tkinter.
 How to use:
 Run the main.py file in an editor to view a table of information for both books and patrons.
 
+Findings report of the project:
+While some sections of this project were left unpolished, there are a number of concepts to learn through this activity. Encapsulation and abstraction are consistent throughout the implementation of the code for creating the Book, Patron, Transaction, and Library classes. That being said, this project can benefit more from being organized on what methods are needed in a certain class. For example, the Book and Patron class both have methods that can be implemented in the overall Library class. Data systems are important for sorting data and in this case, they're written and read through csv, or comma separated values.
