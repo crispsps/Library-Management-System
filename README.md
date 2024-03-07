@@ -1,9 +1,8 @@
 # Library-Management-System 
 A comprehensive Library Management System using Python that allows librarians to manage books, patrons, and transactions efficiently. The system should provide functionalities such as adding and removing books, checking in/out books, managing patrons, and generating reports.
 
-Implemented using csv file system and tkinter GUI.
-
 Structure:
+
 Book Class
 Represents each book with attributes like title, author, ISBN, quantity, etc.
 Adds books with add_book(book) method.
@@ -26,5 +25,11 @@ Checks in books with check_in_book(patron_p_id, isbn) method.
 Library Class
 Manages the overall library system.
 Includes methods for searching books, managing patrons, handling transactions, and generating reports.
+
+Database Integration
+Implements data storage using CSV to persistently store book and patron information.
+
+User Interface
+Develops a simple GUI to interact with the LMS using tkinter.
 
 How to use:
