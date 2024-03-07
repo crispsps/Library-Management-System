@@ -27,7 +27,7 @@ Manages the overall library system.
 Includes methods for searching books, managing patrons, handling transactions, and generating reports.
 
 Database Integration
-Implements data storage using CSV to store book and patron information.
+Implements data storage using CSV to store book and patron information with pandas to read csv files.
 
 User Interface
 Develops a simple GUI to interact with the LMS using tkinter.
