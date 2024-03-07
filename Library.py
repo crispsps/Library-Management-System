@@ -2,12 +2,13 @@
 Design a Library class to manage the overall library system.
 Include methods for searching books, managing patrons, handling transactions, and generating reports.
     """
-import Book,Patron,Transaction
+import Book,Patron
 import csv
 import tkinter as tk
 from tkinter import messagebox
 
 class Library:
+    #Stores info through lists
     def __init__(self):
         self.books = []
         self.patrons = []
@@ -15,11 +16,13 @@ class Library:
         
     def load_from_csv(self, books_file, patrons_file):
         try:
+            #reading book data from CSV file
             with open(books_file, 'r', newline='') as file:
                 reader = csv.reader(file)
                 for row in reader:
                     title, author, isbn, quantity = row
-                    self.books.append(Book(title, author, isbn, int(quantity))) 
+                    self.books.append(Book(title, author, isbn, quantity)) 
+            #reading for patrons
             with open(patrons_file, 'r', newline='') as file:
                 reader = csv.reader(file)
                 for row in reader:
@@ -28,27 +31,32 @@ class Library:
         except FileNotFoundError:
             messagebox.showerror("Error", "CSV file not found.")
     
+    #writes new data to csv file for books and patrons
+    #takes books.csv, patrons.csv
     def save_to_csv(self, books_file, patrons_file):
         with open(books_file, 'w', newline='') as file:
             writer = csv.writer(file)
             for book in self.books:
                 writer.writerow([book.title, book.author, book.isbn, book.quantity])
+                
         with open(patrons_file, 'w', newline='') as file:
             writer = csv.writer(file)
             for patron in self.patrons:
                 writer.writerow([patron.name, patron.p_id, patron.contact_info])    
                 
+        #book methods
     def add_book(self, book):
         self.books.append(book)
     def update_book(self, isbn, **kwargs):
         for book in self.books:
+            #checks if book exists and then updates it
             if book.isbn == isbn:
                 for key, value in kwargs.items():
-                    setattr(book, key, value)
+                    setattr(book, key, value) 
                 return
         print("Book not found.")
 
-
+        #patron methods
     def add_patron(self, patron):
         self.patrons.append(patron)
     def update_patron(self, p_id, **kwargs): #kwargs takes any number of args and is p_identified as a dict
@@ -58,6 +66,7 @@ class Library:
                     setattr(patron, key, value)
                 return
         print("Patron not found.")
+        #loops through patrons and removes specified one
     def remove_patron(self, p_id):
         for i, patron in enumerate(self.patrons):
             if patron.p_id == p_id:
@@ -66,7 +75,7 @@ class Library:
                 return
         print("Patron not found.")
 
-
+        #checking methods
     def check_out_book(self, patron_p_id, isbn, due_date):
         patron = self.find_patron_by_p_id(patron_p_id)
         book = self.find_book_by_isbn(isbn)
@@ -88,7 +97,7 @@ class Library:
                 return
         print("Transaction not found.")
         
-        
+        #diplay methods
     def display_books(self):
         print("Book Report")
         for book in self.books:
@@ -98,19 +107,9 @@ class Library:
         for patron in self.patrons:
             patron.display()
 
-    def find_book_by_isbn(self, isbn):
-        for book in self.books:
-            if book.isbn == isbn:
-                return book
-        return None
-    def find_patron_by_p_id(self, p_id):
-        for patron in self.patrons:
-            if patron.p_id == p_id:
-                return patron
-        return None
 
 #GUI of the library
-class LibraryGUI:
+class LibGUI:
     def __init__(self, root, library):
         self.root = root
         self.library = library
@@ -138,38 +137,54 @@ class LibraryGUI:
         button_frame.pack()
 
         # Create buttons
-        add_book_button = tk.Button(button_frame, text="Add Book", command=self.on_add_book)
+        add_book_button = tk.Button(button_frame, text="Add", command=self.on_add_book)
         add_book_button.grid(row=0, column=0, padx=5, pady=5)
 
-        update_book_button = tk.Button(button_frame, text="Update Book", command=self.on_update_book)
+        update_book_button = tk.Button(button_frame, text="Update", command=self.on_update_book)
         update_book_button.grid(row=0, column=1, padx=5, pady=5)
 
-        remove_book_button = tk.Button(button_frame, text="Remove Book", command=self.on_remove_book)
-        remove_book_button.grid(row=0, column=2
+        remove_book_button = tk.Button(button_frame, text="Remove", command=self.on_remove_book)
+        remove_book_button.grid(row=0, column=2)
                             
     def on_add_book(self):
-        # Implement the logic for adding a book here
-        pass
+        title = tk.simpledialog.askstring("Add", "title:")
+        author = tk.simpledialog.askstring("Add", "author:")
+        isbn = tk.simpledialog.askstring("Add", "ISBN:")
+        quantity = int(tk.simpledialog.askstring("Add", "quantity:"))
+
+        if title and author and isbn and quantity:
+            self.library.add_book(Book(title, author, isbn, quantity))
+            self.update_book_listbox()
 
     def on_update_book(self):
-        # Implement the logic for updating a book here
-        pass
+        selected_book_index = self.book_listbox.curselection()
+
+        if selected_book_index:
+            selected_book_index = selected_book_index[0]
+            book_str = self.book_listbox.get(selected_book_index)
+            title, author, isbn, quantity = book_str.split(" - ")
+            quantity = int(quantity)
+
+            title = tk.simpledialog.askstring("Update", f"title ({title}):")
+            author = tk.simpledialog.askstring("Update", f"author ({author}):")
+            isbn = tk.simpledialog.askstring("Update", f"ISBN ({isbn}):")
+            quantity = int(tk.simpledialog.askstring("Update", f"quantity ({quantity}):"))
+
+            if title and author and isbn:
+                self.library.update_book(isbn, title=title, author=author, quantity=quantity)
+                self.update_book_listbox()
 
     def on_remove_book(self):
-        # Implement the logic for removing a book here
-        pass
+        selected_book_index = self.book_listbox.curselection()
 
-    def on_display_books(self):
-        # Implement the logic for displaying books here
-        pass
+        if selected_book_index:
+            selected_book_index = selected_book_index[0]
+            isbn = self.book_listbox.get(selected_book_index).split(" - ")[2]
+            self.library.remove_book(isbn)
+            self.update_book_listbox()
 
-    def on_display_patrons(self):
-        # Implement the logic for displaying patrons here
-        pass
 
     def on_save(self):
         # Implement the logic for saving data to CSV files here
         self.library.save_to_csv('books.csv', 'patrons.csv')
 
-    def on_exit(self):
-        self.root.destroy()
